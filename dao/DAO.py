@@ -26,7 +26,12 @@ class DAO(object):
         return DAO.__instancia
 
     def __init__(self):
-        self.db = TinyDB(os.path.join(parentdir, 'database', 'db.json'))
+        self.db = TinyDB(
+            os.path.join(parentdir, 'database', 'db.json'),
+            sort_keys=True,
+            indent=2,
+            separators=(',', ':')
+        )
 
         self.curso = self.db.table('Curso')
         self.estudante = self.db.table('Estudante')
@@ -52,5 +57,5 @@ class DAO(object):
     def listar(self):
         pass
 
-    def listarPorIDS(self):
+    def listarPorID(self):
         pass

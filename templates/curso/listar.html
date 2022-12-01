@@ -22,11 +22,13 @@
     <section>
       <table width="600">
         <tbody>
-          <tr>
-            <td>sigla &nbsp;&#45;&nbsp; nome</td>
-            <td><a href="">editar</a></td>
-            <td><a href="">remover</a></td>
-          </tr>
+          {% for curso in cursos %}
+            <tr>
+              <td>{{curso.sigla}} &nbsp;&#45;&nbsp; {{curso.nome}}</td>
+              <td><a href="/app-school/curso/alterar?nome={{curso.nome}}">editar</a></td>
+              <td><a href="/app-school/curso/remover?nome={{curso.nome}}">remover</a></td>
+            </tr>
+          {% endfor %}
         </tbody>
       </table>
     </section>

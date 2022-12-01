@@ -1,6 +1,6 @@
 class Curso:
 
-    def __init__(self, codigo, nome, sigla):
+    def __init__(self, nome, sigla, codigo=None):
         self.codigo = codigo
         self.nome = nome
         self.sigla = sigla

@@ -1,5 +1,5 @@
 from .cursoDAO import CursoDAO
-from .dao import DAO
+from .DAO import DAO
 from model.curso import Curso
 from model.estudante import Estudante
 
