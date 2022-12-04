@@ -20,12 +20,14 @@ class EstudanteDAO(DAO):
         self.dao.estudante.insert({
             'nome': estudante.getNome(),
             'matricula': estudante.getMatricula(),
-            'curso': estudante.getCurso().getNome()}
-        )
+            'curso': estudante.getCurso().getNome()
+        })
 
     def alterar(self, estudante: Estudante, query: str):
-        self.dao.estudante.update(
-            {'nome': estudante.getNome(), 'sigla': estudante.getSigla()},
+        self.dao.estudante.update({
+            'nome': estudante.getNome(),
+            'matricula': estudante.getMatricula(),
+            'curso': estudante.getCurso().getNome()},
             self.dao.query.matricula == query
         )
 
@@ -40,15 +42,18 @@ class EstudanteDAO(DAO):
         for estudante in result:
             estudantes.append(
                 Estudante(
-                    estudante.get('matricula'),
                     estudante.get('nome'),
+                    estudante.get('matricula'),
                     CursoDAO().listarPorID(
                         Curso(estudante.get('curso'), None)
                     )
                 )
             )
+        return estudantes
 
     def listarPorID(self, estudante: Estudante):
         result = self.dao.estudante.search(
             self.dao.query.matricula == estudante.getMatricula().strip())
-        return Estudante(result[0].get('nome'), result[0].get('matricula'), CursoDAO().listarPorID(Curso(estudante.get('curso'), None)))
+        return Estudante(result[0].get('nome'), result[0].get('matricula'),
+                         CursoDAO().listarPorID(
+                             Curso(result[0].get('curso'), None)))

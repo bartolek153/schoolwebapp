@@ -33,6 +33,4 @@ class CursoDAO(DAO):
 
     def listarPorID(self, curso: Curso):
         result = self.dao.curso.search(self.dao.query.nome == curso.getNome())
-        print(result)
-        print(curso.nome)
         return Curso(result[0].get('nome'), result[0].get('sigla'))

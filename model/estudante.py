@@ -1,23 +1,23 @@
 class Estudante(object):
-    def __init__(self, codigo, nome, matricula, curso):
-        self.codigo = codigo
-        self.matricula = matricula
+    def __init__(self, nome: str, matricula: str, curso):  # codigo
+        # self.codigo = codigo
         self.nome = nome
+        self.matricula = matricula
         self.curso = curso
 
-    def getCodigo(self):
-        return self.codigo
+    # def getCodigo(self):
+    #     return self.codigo
+    #
+    # def setCodigo(self, codigo):
+    #     self.codigo = codigo
 
-    def setCodigo(self, codigo):
-        self.codigo = codigo
-
-    def getMatricula(self):
+    def getMatricula(self) -> str:
         return self.matricula
 
     def setMatricula(self, matricula):
         self.matricula = matricula
 
-    def getNome(self):
+    def getNome(self) -> str:
         return self.nome
 
     def setNome(self, nome):

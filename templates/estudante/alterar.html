@@ -1,44 +1,35 @@
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
-    <title>::app-School</title>
-
-    <meta http-equip="Content-Type" content="text/html"
+    <meta http-equip="Content-Type" content="text/html">
     <meta charset="UTF-8">
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- <link href="css/style.css" rel="stylesheet"> -->
-    
+    <script src="{{url_for('static', filename='js/script.js')}}"></script>
+    <title>::app-School</title>
   </head>
-
-  <body>
-
+  <body onload="definirCursoEstudante('{{estudante.getCurso().getNome()}}')">
     <nav id="nav_bar">
       <a href="/app-school">Principal</a>&nbsp;|&nbsp;
     </nav>
-
-    <h3>Estudante::altera&ccedil;&atilde;o</h3>
-
-    <form method="POST" action="">
+    <h3>Estudante::altera&ccedil;&atilde;o?</h3>
+    <form method="POST" action="/app-school/estudante/confirmar-alteracao">
       <label for="nome">Nome:&nbsp;</label>     
-      <input type="text" name="nome" autofocus required size="80">
+      <input type="text" name="nome" value="{{estudante.nome}}" autofocus required size="50">
       <br>
-
       <label for="matricula">Matrícula:&nbsp;</label>
-      <input type="text" name="matricula" autofocus required size="12">
+      <input type="text" name="matricula" value="{{estudante.matricula}}" readonly size="12">
       <br>
-
       <label for="curso">Curso:&nbsp;</label>
-      <select name="curso" autofocus required>
-        <option id="" value="">--selecione--</option>
-
-        <option value="">nome do curso</option>
+      <select name="curso" id="curso" autofocus required>
+        {% for curso in cursos %}
+          <option value="{{curso.nome}}">{{curso.nome}}&nbsp;&#45;&nbsp;{{curso.sigla}}</option>
+        {% endfor %}
       </select>
       <br>
-
       <input type="submit" value="Alterar">
-      <input type="button" value="Cancelar">
+      <input type="button" onclick="location.href='/app-school/estudante/listar'" value="Cancelar">
     </form>
-
   </body>
 </html>
 
