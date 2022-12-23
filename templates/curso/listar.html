@@ -2,35 +2,66 @@
 <html lang="pt-br">
   <head>
     <title>::app-School</title>
-    <meta http-equip="Content-Type" content="text/html"
-    <meta charset="UTF-8">
+    <meta http-equip="Content-Type" content="text/html">
+    <meta charset="UTF-8"><link rel="stylesheet" href="styles.css" type="text/css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <!-- <link href="css/style.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
   </head>
   <body>
+
     <nav id="nav_bar">
       <a href="/app-school">Principal</a>&nbsp;|&nbsp;
       <a href="/app-school/curso/novo">Novo</a>&nbsp;|&nbsp;
     </nav>
-    <h3>Cursos</h3>
-    <section>
-      <table width="600">
-        <tbody>
-          {% for curso in cursos %}
-            <tr>
-              <td>{{curso.sigla}} &nbsp;&#45;&nbsp; {{curso.nome}}</td>
-              <td><a href="/app-school/curso/alterar?nome={{curso.nome}}">editar</a></td>
-              <td><a href="/app-school/curso/remover?nome={{curso.nome}}">remover</a></td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </section>
+
+    <h3><span class="material-icons">school</span> Cursos</h3>
+
+    <div class="container">
+      <section>
+        <table>
+
+          <tbody>
+
+            {% for curso in cursos %}
+
+              <tr>
+                <td class="register">{{curso.sigla}}&nbsp;&#45;&nbsp;{{curso.nome}}</td>
+                
+                <td style="text-align: center;">
+                  <a class="button nostyle" href="/app-school/curso/alterar?nome={{curso.nome}}">
+                    editar
+                    <span class="material-icons" style="font-size: 18px">
+                    delete_sweep
+                    </span>
+                  </a>
+                </td>
+                
+                <td style="text-align: center;">
+                  <a class="button nostyle" href="/app-school/curso/remover?nome={{curso.nome}}">
+                    remover
+                    <span class="material-icons" style="font-size: 18px;">
+                     edit
+                    </span>
+                  </a>
+                </td>
+              </tr>
+
+            {% endfor %}
+
+          </tbody>
+          
+        </table>
+      </section>
+    </div>
+
     <footer>
       <p>
         Copyright &copy;&nbsp;&#45;&nbspDevQuickly<br>
         Python Flask
       </p>
     </footer>
+
   </body>
 </html>
