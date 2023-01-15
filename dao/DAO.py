@@ -15,11 +15,12 @@ class DAO(object):
 
     # Convencao Python: um atributo, cujo identificador apresente a
     # sequencia '__' de caracteres no inicio, traz a ideia de
-    # modificador de acesso private
+    # modificador de acesso 'private'
     __instancia = None
 
     # Metodo estatico, ou seja, nao pertence a um objeto, e sim,
     # a classe. Logo, nao precisa instanciar a classe para utiliza-lo
+    @staticmethod
     def getInstancia():
         if DAO.__instancia is None:
             DAO()

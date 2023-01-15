@@ -1,24 +1,38 @@
+import re
+
 class Curso:
-
-    def __init__(self, nome, sigla, codigo=None):
-        self.codigo = codigo
+    def __init__(self, nome:str, sigla:str, codigo:int=None):
         self.nome = nome
         self.sigla = sigla
+        self._codigo = codigo
+    
+    def __repr__(self) -> str:
+        return f"<Curso(name={self.nome!r})>"
 
-    def getNome(self):
-        return self.nome
+    def __call__(self) -> None:
+        print(self.codigo)
+        print(self.nome)
+        print(self.sigla)
 
-    def setNome(self, nome):
-        self.nome = nome
+    @property
+    def nome(self) -> str:
+        return self._nome
 
-    def getCodigo(self):
-        return self.codigo
+    @nome.setter
+    def nome(self, n:str):
+        if (bool(re.search(r'\d', n))):
+            raise ValueError("Um nome não pode conter dígitos.")
 
-    def setCodigo(self, codigo):
-        self.codigo = codigo
+        self._nome = n
 
-    def getSigla(self):
-        return self.sigla
+    @property
+    def sigla(self) -> str:
+        return self._sigla
 
-    def setSigla(self, sigla):
-        self.sigla = sigla
+    @sigla.setter
+    def sigla(self, s:str):
+        self._sigla = s
+
+    @property
+    def codigo(self) -> str:
+        return self._codigo

@@ -1,67 +1,51 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <title>::app-School</title>
-    <meta http-equip="Content-Type" content="text/html">
-    <meta charset="UTF-8"><link rel="stylesheet" href="styles.css" type="text/css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <!-- <link href="css/style.css" rel="stylesheet"> -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
-  </head>
-  <body>
+{% extends 'layout.html' %}
 
-    <nav id="nav_bar">
-      <a href="/app-school">Principal</a>&nbsp;|&nbsp;
-      <a href="/app-school/curso/novo">Novo</a>&nbsp;|&nbsp;
-    </nav>
+{% block items %}
+  <li class="nav-item"><a href="/app-school">início</a></li>
+  <li class="nav-item"><a href="/app-school/curso/novo">novo</a></li>
+{% endblock %}
 
-    <h3><span class="material-icons">school</span> Cursos</h3>
+{% block content %}
+<div id="swup" class="fill-space transition-fade">
+  <h3 class="title">
+    <span style="vertical-align: text-bottom" class="material-icons"
+      >school</span
+    >
+    Cursos&nbsp;
+  </h3>
 
-    <div class="container">
-      <section>
-        <table>
+  <section class="glass white-glass">
+    <table>
+      <tbody>
+        {% for curso in cursos %}
 
-          <tbody>
+        <tr>
+          <td class="data">{{curso.sigla}}&nbsp;&#45;&nbsp;{{curso.nome}}</td>
 
-            {% for curso in cursos %}
+          <td>
+            <a
+              class="btn btn-row-action"
+              href="/app-school/curso/alterar?nome={{curso.nome}}"
+            >
+              editar
+              <span class="material-symbols-outlined">edit_note</span>
+            </a>
+          </td>
 
-              <tr>
-                <td class="register">{{curso.sigla}}&nbsp;&#45;&nbsp;{{curso.nome}}</td>
-                
-                <td style="text-align: center;">
-                  <a class="button nostyle" href="/app-school/curso/alterar?nome={{curso.nome}}">
-                    editar
-                    <span class="material-icons" style="font-size: 18px">
-                    delete_sweep
-                    </span>
-                  </a>
-                </td>
-                
-                <td style="text-align: center;">
-                  <a class="button nostyle" href="/app-school/curso/remover?nome={{curso.nome}}">
-                    remover
-                    <span class="material-icons" style="font-size: 18px;">
-                     edit
-                    </span>
-                  </a>
-                </td>
-              </tr>
+          <td>
+            <a
+              class="btn btn-row-action"
+              href="/app-school/curso/remover?nome={{curso.nome}}"
+            >
+              remover
+              <span class="material-symbols-outlined">delete_sweep</span>
+            </a>
+          </td>
+        </tr>
 
-            {% endfor %}
-
-          </tbody>
-          
-        </table>
-      </section>
-    </div>
-
-    <footer>
-      <p>
-        Copyright &copy;&nbsp;&#45;&nbspDevQuickly<br>
-        Python Flask
-      </p>
-    </footer>
-
-  </body>
-</html>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+</div>
+{% endblock %}

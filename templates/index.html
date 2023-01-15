@@ -1,88 +1,75 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <title>::app-School</title>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
-    <link rel="stylesheet" href="styles.css" type="text/css">
-    <meta http-equip="Content-Type" content="text/html">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-  </head>
-  <body>
+{% extends 'layout.html' %}
 
-    <header id="nav_bar">
-      <h1>app-School</h1>
-    </header>
+{% block customization %}
+  <style>
+    img {
+      width: 50px;
+      height: 50px;
+    }
+  </style>
+{% endblock %}
 
-    <div class="container">
-      <div class="content">
-
-        <!-- 
-        <a href="">Cursos</a>&nbsp;|&nbsp;
+{% block content %}
+<div id="swup" class="glass blur-glass panel-cards transition-fade">
+  <!-- 
+        <a href="">Cursos</a>&nbsp;|&nbsp; 
         <a href="">Estudantes</a>&nbsp;|&nbsp;
         <a href="">FSA</a>&nbsp;|&nbsp;
         <a href="">CEFSA</a>&nbsp;|&nbsp;
         <a href="">FESA</a>&nbsp;|&nbsp;
         <a href="">Termomecânina</a>&nbsp;|&nbsp; 
         -->
-        
-        <a class="nostyle" href="/app-school/curso/listar">
-          <div class="card animate delay-1 grow">
-            <!-- <img src="curso.png" alt="curso img"> -->
-            <h4>Cursos</h4>
-            <!-- <p></p> -->
-          </div>
-        </a>
 
-        <a class="nostyle" href="/app-school/estudante/listar">
-          <div class="card animate delay-2 grow">
-            <!-- <img src="endereco.png" alt="estudante img"> -->
-            <h4>Endereços</h4>
-            <!-- <p></p> -->
-          </div>
-        </a>
-
-        <a class="nostyle" href="/app-school/endereco/listar">
-          <div class="card animate delay-3 grow">
-            <!-- <img src="estudante.png" alt="endereco img"> -->
-            <h4>Estudantes</h4>
-            <!-- <p></p> -->
-          </div>
-        </a>
-
-        <a class="nostyle" href="http://www.cefsa.org.br">
-          <div class="card animate delay-4 grow">
-            <!-- <img src="fsa.png" alt="cefsa img"> -->
-            <h4>CEFSA</h4>
-            <p>Centro Educacional da Fundação Salvador Arena</p>
-          </div>
-        </a>
-
-        <a class="nostyle" href="http://www.faculdadesalvadorarena.org.br">
-          <div class="card animate delay-5 grow">
-            <!-- <img src="fesa.png" alt="fesa img"> -->
-            <h4>FESA</h4>
-            <p>Faculdade Engenheiro Salvador Arena</p>
-          </div>
-        </a>
-
-        <a class="nostyle" href="https://www.termomecanica.com.br">
-          <div class="card animate delay-6 grow">
-            <!-- <img src="tm.png" alt="termomecanica img"> -->
-            <h4>TM</h4>
-            <p>Termomecânina</p>
-          </div>
-        </a>
-
-      </div>
+  <a href="/app-school/curso/listar">
+    <div class="card delay-1">
+      <img src="{{ url_for('static', filename='images/cards/cursos.jpg') }}" />
+      <h4>Cursos</h4>
+      <!-- <p></p> -->
     </div>
+  </a>
 
-    <footer>
-        Copyright &copy;&nbsp;&#45;&nbsp;DevQuickly
-        <br>
-        Python Flask
-    </footer>
+  <a href="/app-school/estudante/listar">
+    <div class="card delay-2">
+      <img
+        src="{{ url_for('static', filename='images/cards/estudantes.jpg') }}"
+      />
+      <h4>Estudantes</h4>
+      <!-- <p></p> -->
+    </div>
+  </a>
 
-  </body>
-</html>
+  <a href="/app-school/endereco/listar">
+    <div class="card delay-3">
+      <img
+        src="{{ url_for('static', filename='images/cards/enderecos.jpg') }}"
+      />
+      <h4>Endereços</h4>
+      <!-- <p></p> -->
+    </div>
+  </a>
+
+  <a href="http://www.cefsa.org.br">
+    <div class="card info delay-4">
+      <img src="{{ url_for('static', filename='images/cards/cefsa2.jpg') }}" />
+      <h4>CEFSA</h4>
+      <p>Centro Educacional da Fundação Salvador Arena</p>
+    </div>
+  </a>
+
+  <a href="http://www.faculdadesalvadorarena.org.br">
+    <div class="card info delay-5">
+      <img src="{{ url_for('static', filename='images/cards/fesa.jpg') }}" />
+      <h4>FESA</h4>
+      <p>Faculdade Engenheiro Salvador Arena</p>
+    </div>
+  </a>
+
+  <a href="https://www.termomecanica.com.br">
+    <div class="card info delay-6">
+      <img src="{{ url_for('static', filename='images/cards/tm.jpg') }}" />
+      <h4>TM</h4>
+      <p>Termomecânina S.A.</p>
+    </div>
+  </a>
+</div>
+{% endblock %}

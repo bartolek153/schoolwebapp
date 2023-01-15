@@ -1,22 +1,27 @@
-'''Main App Controller'''
-
+'''SchoolWebApp - Main Controller'''
 from model.curso import Curso
 from model.estudante import Estudante
 from dao.cursoDAO import CursoDAO
 from dao.estudanteDAO import EstudanteDAO
+import utils.helper as functions
 
-# set FLASK_APP=app.py && flask run
-from flask import Flask, render_template as render, request, redirect, url_for
-# from flask import * ?
+from flask import Flask, request, render_template as render
+from flask import *  # render_template, redirect, url_for, make_response
+
 
 app = Flask(__name__)
 
 
+# @app.after_request
+# def add_cache_header(response):
+#     if request.path.startswith('/static/'):
+#         # Set cache control to one year
+#         response.cache_control.max_age = 31536000
+#         response.expires = datetime.utcnow() + timedelta(seconds=3600)
+#         return response
+
+
 @app.route('/')
-def runing():
-    return '<a href="/app-school/">running<a>'
-
-
 @app.route('/app-school')
 @app.route('/app-school/')
 @app.route('/app-school/index')
@@ -25,19 +30,13 @@ def index():
     return render('index.html')
 
 
-# logradouro
-# numero
-# bairro
-# cidade
-# estado
-
-
 #######################################
 #                                     #
 # .:CURSO                             #
 #                                     #
 #######################################
 
+@app.route('/app-school/curso')
 @app.route('/app-school/curso/listar')
 def curso_listar():
     return render('/curso/listar.html', cursos=CursoDAO().listar())
@@ -48,17 +47,24 @@ def curso_novo():
     return render('/curso/inserir.html')
 
 
+# @app.route('/app-school/curso/gerar-sigla', methods = ['POST'])
+# def curso_sigla():
+#     nome_curso = request.field['nome']
+#     return functions.gerarSigla(nome_curso), 200
+
+
 @app.route('/app-school/curso/inserir', methods=['POST'])
 def curso_inserir():
-    if request.method == 'POST':
+
+    try:
         curso = Curso(request.form['nome'], request.form['sigla'])
         CursoDAO().inserir(curso)
-        return redirect(url_for('curso_listar'))
+        return  make_response(url_for('curso_listar'), 200)
 
-##
-# verificao para saber se curso ja foi cadastrado
-##
-
+    except ValueError as e: 
+        print(e.args[0])
+        return  make_response(jsonify(status='error', message='param is missing'), 400)
+        
 
 @app.route('/app-school/curso/alterar', methods=['GET'])
 def curso_alterar():
@@ -94,6 +100,7 @@ def curso_confirmar_exclusao():
 #                                     #
 #######################################
 
+@app.route('/app-school/estudante')
 @app.route('/app-school/estudante/listar')
 def estudante_listar():
     return render('/estudante/listar.html', estudantes=EstudanteDAO().listar())
@@ -155,3 +162,9 @@ def estudante_confirmar_exclusao():
         )
         EstudanteDAO().remover(estudante)
         return redirect(url_for('estudante_listar'))
+
+#######################################
+#                                     #
+# .:ENDEREÇOS                         #
+#                                     #
+#######################################
