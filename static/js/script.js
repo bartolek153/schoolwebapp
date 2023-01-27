@@ -1,4 +1,4 @@
-init();
+// Javascript module
 
 // entrance card effect (runs once)
 const cards = document.querySelectorAll(".card");
@@ -9,6 +9,7 @@ cards.forEach((card, index) => {
         index / 7 + 0.3
       }s`);
 });
+
 
 // navigation screen toggle (mobile devices only)
 const hamburger = document.querySelector(".hamburger");
@@ -24,99 +25,182 @@ hamburger.addEventListener("click", function () {
     overlay.style.opacity = "1";
     overlay.style.visibility = "visible";
   }
-
+  
   overlay.classList.toggle("active");
 });
+
+
+// Toastr library options
+toastr.options = {
+  closeButton: true,
+  progressBar: true,
+  positionClass: "toast-bottom-right",
+  preventDuplicates: true,
+  showEasing: "swing",
+  hideEasing: "swing",
+  showMethod: "slideDown",
+  hideMethod: "fadeOut",
+};  
+
 
 // Swup library instance
 const swup = new Swup({
   containers: ["#swup", ".swup-a"],
+  cache: false
 });
-
-
 
 // on page change, reload some JavaScript functions
 // (Swup default behavior removes a standard lifecycle of scripts)
 swup.on("contentReplaced", init);
 
+
+
 function init() {
+  
   if (document.querySelector("form")) {
+
     let timeout;
     const boxes = $(".box");
     const buttons = $(".btn");
-
-    boxes.on("input", function () {
+    const form = $("#form");
+    const cancelButton = $("#cancel");
+    const siglaButton = $("#btn-sigla");
+    
+    document.querySelector("#form").addEventListener("submit", submitForm);
+    boxes.on("input", inspectBoxes);
+    cancelButton.click(cancelForm);
+    siglaButton.on("click", requestSigla);
+    
+    inspectBoxes();
+    
+    function inspectBoxes() {
       clearTimeout(timeout);
       timeout = setTimeout(() => {
-        // console.log('parou de digitar')
 
-        if (
-          $("input:text").filter(function () {
-            return this.value == "";
-          }).length === 0
-        )
-          buttons.addClass("btn-enabled");
-        else {
-          if (buttons.hasClass("btn-enabled"))
-            buttons.removeClass("btn-enabled");
+      if (
+        boxes.filter(function () {
+          return this.value == "";
+        }).length === 0
+      )
+        buttons.addClass("btn-enabled");
+      
+      else {
+        if (buttons.hasClass("btn-enabled"))
+        buttons.removeClass("btn-enabled");
         }
       }, 1000); // 1 sec.
-    });
+    }
 
-    let form = $("#form");
-
-    form.on("submit", function (event) {
+    
+    function submitForm(event) {
       event.preventDefault();
+      
+      const target = event.target;
 
-      const data = new FormData(document.getElementById("form"));
+      const url = target.getAttribute("data-action");
+      const formData = new FormData(target);
 
-      fetch("/app-school/curso/inserir", {
+      fetch(url, {
         method: "POST",
-        body: data,
+        body: formData
       })
-        .then(function (response) {
-          if (response.status === 200) {
-            form.removeClass("animate__animated animate__zoomOutRight");
-            form.addClass("animate__animated animate__zoomOutRight");
-            form.on("animationend", function () {
-              // window.location.href = "/app-school/curso/listar";
-              return swup.loadPage({ url: "/app-school/curso/listar" });
-            });
-          } 
+      .then(response => { console.log(response)
+        if (response.status === 200) {
+          let redirect = "/app-school/curso/listar" 
+
+          handleAnimateCSS("form", "zoomOutRight", redirect)
+          toastr.success("Envio bem-sucedido", "Sucesso");
+          return true;
+        } 
+        else {
+          let errorMessage = response.headers.get("Error-Message");
+
+          handleAnimateCSS("form", "headShake")
+          toastr.error( errorMessage, "Erro");
+          return false;
+        }
+      })
+      .catch((error) => {
+        toastr.warning(
+          `Problemas encontrados na aplicação. Volte mais tarde, por favor: (${error})`
+        );
+      })
+    }
+    
+    let url = window.location.pathname.split("?")[0].split("/");
+      console.log(url);
+    function cancelForm () {
+      
+      let animation;
+      $(".fill-space").css("overflow", "hidden");
+      
+      switch (url[url.length - 1]) {
+        case "novo":
+          animation = "hinge";
+          break;
+
+        case "remover":
+          animation = "bounceOutDown";
+          break;
           
-          if (!response.ok) {
-            form.removeClass("animate__animated animate__headShake");
-            form.addClass("animate__animated animate__headShake");
-          }
+        default:
+          animation = "fadeOutRight animate__faster";
+          break;
+        }
 
-          console.log(response)
+          form.removeClass(`animate__animated animate__${animation}`);
+          form.addClass(`animate__animated animate__${animation}`);
+          form.on("animationend", function () {
+            // window.location.href = "/app-school/curso/listar";
+            return swup.loadPage({ url: "/app-school/curso/listar" });
+          });
+        }
+      }
+      
+      
+      function requestSigla() {
+        let nome = document.querySelector("[name='nome']").value;
+        
+        if (!nome || !nome.trim()) {
+          return toastr.info("Insira um nome não vazio.");
+        }
+  
+        fetch("/app-school/curso/gerar-sigla", {
+          method: "POST", 
+          headers: { "Accept": "application/json",
+                     "Content-Type": "application/json"},
+          body: JSON.stringify(nome)
         })
-        .then((data) => {
-          // console.log("data:asdf " + data);
-          // faça alguma coisa com o texto da resposta aqui
-        })
-        .catch((error) => {
-          console.error("deu erro em: " + error);
-          // faça alguma coisa com o erro aqui
+          .then((response) => response.json())
+          .then((result) => { 
+            document.querySelector("[name='sigla']").value = result
         });
+      }
+    }
+    
 
-      // $("body").css("overflow", "hidden");
-    });
+init();
 
-    $("#cancel").click(function () {
-      $("body").css("overflow", "hidden");
-      form.removeClass("animate__animated animate__hinge");
-      form.addClass("animate__animated animate__hinge");
-      form.on("animationend", function () {
-        // window.location.href = "/app-school/curso/listar";
-        return swup.loadPage({ url: "/app-school/curso/listar" });
-      });
-    });
-  }
-}
 
 function definirCursoEstudante(curso) {
   document.getElementById("curso").value = curso;
 }
 
-function ajaxToGithub() {}
+
+function handleAnimateCSS(element, animation, url="", customFunc=undefined) {
+  
+  const prefix = "animate__"
+  const animationName = `${prefix}${animation}`;
+  const node = document.querySelector(element);
+
+  node.classList.add(`${prefix}animated`, animationName);
+
+  function endAnimate(event) {
+    customFunc ? customFunc() : {};
+    console.log(url.length);
+    if (url.length > 0) { swup.loadPage({ url: url }); } 
+    else {node.classList.remove(`${prefix}animated`, animationName);}
+  }
+
+  node.addEventListener("animationend", endAnimate);
+}

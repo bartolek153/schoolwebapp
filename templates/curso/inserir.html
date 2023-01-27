@@ -7,27 +7,23 @@
 
 {% block content %}
 <div id="swup" class="fill-space transition-fade">
-  <h3 class="title"><span style="vertical-align: text-bottom" class="material-icons"
-    >school</span
-  >&nbsp;Novo</h3>
+  <h3 class="title"><span style="vertical-align: text-bottom" class="material-icons">school</span>
+  &nbsp;Novo</h3>
 
-  <form id="form" class="glass white-glass" method="POST">
-    <!-- <div class="input-boxes"> -->
-      <label for="nome">Nome:&nbsp;</label>
+  <form id="form" class="glass white-glass" method="POST" data-action="/app-school/curso/inserir"> 
+
+    <label for="nome">Nome:&nbsp;</label>
       <input
         name="nome"
         placeholder='"Engenharia Mecânica"'
-        
         class="box"
         size="20"
         type="text"
-
         autofocus
         required
       />
-      <span class="underline"></span>
 
-      <label for="sigla">Sigla:&nbsp;</label>
+    <label for="sigla">Sigla:&nbsp;</label>
       <input
         name="sigla"
         placeholder='"EM"'
@@ -41,14 +37,10 @@
         required
       />
 
-      <span 
-        id="shuffle" 
-        class="material-symbols-outlined">shuffle
-      </span>
-
-    <!-- </div>  -->
+    <span id="btn-sigla" class="material-symbols-outlined">shuffle</span>
 
     <input 
+      id="submit"
       class="btn btn-record-action" 
       type="submit" 
       value="&check; Enviar" />
@@ -56,9 +48,7 @@
       id="cancel"
       class="btn btn-record-action"
       type="button"
-      value="&#10005; Cancelar"
-    />
-    <!-- animate.css animate__ -->
+      value="&#10005; Cancelar" />
   </form>
 </div>
 {% endblock %}

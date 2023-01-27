@@ -1,37 +1,50 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <title>::app-School</title>
+{% extends 'layout.html' %}
 
-    <meta http-equip="Content-Type" content="text/html">
-    <meta charset="UTF-8">
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
-    <!-- <link href="css/style.css" rel="stylesheet"> -->
-    
-  </head>
+{% block items %}
+<li class="nav-item"><a href="/app-school">início</a></li>
+{% endblock %} 
 
-  <body>
+{% block content %}
+<div id="swup" class="fill-space transition-fade">
+  <h3 class="title"><span style="vertical-align: text-bottom" class="material-icons">school</span>
+    &nbsp;Alterar</h3>
 
-    <nav id="nav_bar">
-      <a href="/app-school">Principal</a>&nbsp;|&nbsp;
-    </nav>
+  <form id="form" class="glass white-glass" method="POST" data-action="/app-school/curso/confirmar-alteracao">
+    <input type="text" hidden name="query" value="{{curso.codigo}}" />
 
-    <h3>Curso::altera&ccedil;&atilde;o?</h3>
+    <label for="nome">Nome:&nbsp;</label>
+      <input
+        name="nome"
+        type="text"
+        value="{{curso.nome}}"
+        class="box"
+        autofocus
+        required
+        size="20"
+      />
 
-    <form method="POST" action="/app-school/curso/confirmar-alteracao">
-      <input type="text" hidden name="query" value="{{curso.nome}}">
+    <label for="sigla">Sigla:&nbsp;</label>
+      <input
+        name="sigla"
+        type="text"
+        value="{{curso.sigla}}"
+        class="box"
+        autofocus
+        required
+        size="10"
+      />
 
-      <label for="nome">Nome:&nbsp;</label>     
-      <input type="text" name="nome" value="{{curso.nome}}" autofocus required size="40">
-      <br>
+    <input 
+      id="submit"
+      class="btn btn-record-action" 
+      type="submit" 
+      value="&check; Alterar" />
+    <input
+      id="cancel"
+      class="btn btn-record-action"
+      type="button"
+      value="&#10005; Cancelar" />
+  </form>
+</div>
 
-      <label for="sigla">Sigla:&nbsp;</label>
-      <input type="text" name="sigla" value="{{curso.sigla}}" autofocus required size="10">
-      <br>
-
-      <input type="submit" name="Alterar">
-      <input type="button" onclick="location.href='/app-school/estudante/listar'" value="Cancelar">
-    </form>
-
-  </body>
-</html>
+{% endblock %}

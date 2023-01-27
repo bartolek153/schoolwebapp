@@ -15,6 +15,10 @@
     "4":{
       "nome":"Administra\u00e7\u00e3o",
       "sigla":"ADM"
+    },
+    "5":{
+      "nome":"Engenharia Mec\u00e2nica",
+      "sigla":"EM"
     }
   },
   "Estudante":{

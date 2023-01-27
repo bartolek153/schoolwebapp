@@ -1,13 +1,15 @@
 import re
+from utils.helper import *
+
 
 class Curso:
-    def __init__(self, nome:str, sigla:str, codigo:int=None):
+    def __init__(self, nome= "", sigla="", codigo:int=None):
         self.nome = nome
         self.sigla = sigla
         self._codigo = codigo
-    
-    def __repr__(self) -> str:
-        return f"<Curso(name={self.nome!r})>"
+
+    # def __repr__(self) -> str:
+    #     return f"<Curso(name={self.nome!r})>"
 
     def __call__(self) -> None:
         print(self.codigo)
@@ -19,10 +21,8 @@ class Curso:
         return self._nome
 
     @nome.setter
-    def nome(self, n:str):
-        if (bool(re.search(r'\d', n))):
-            raise ValueError("Um nome não pode conter dígitos.")
-
+    @onlycharacters('nome')
+    def nome(self, n: str):
         self._nome = n
 
     @property
@@ -30,7 +30,8 @@ class Curso:
         return self._sigla
 
     @sigla.setter
-    def sigla(self, s:str):
+    @onlycharacters('sigla', 'Utilize o gerador embutido.')
+    def sigla(self, s: str):
         self._sigla = s
 
     @property

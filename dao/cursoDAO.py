@@ -17,14 +17,15 @@ class CursoDAO(DAO):
     def inserir(self, curso:Curso):
         self.dao.curso.insert({ # verificação se nome correto e se já existe
             'nome': curso.nome, 
-            'sigla': curso.sigla
+            'sigla': curso.sigla,
         })
 
-    def alterar(self, curso:Curso, query:str):
+    def alterar(self, curso:Curso, id:int):
+        print(id)
         self.dao.curso.update({
             'nome': curso.nome, 
             'sigla': curso.sigla
-            }, self.dao.query.nome == query
+            }, doc_ids=[int(id)]
         )
 
     def remover(self, curso:Curso):
@@ -35,9 +36,6 @@ class CursoDAO(DAO):
     def listar(self):
         return self.dao.curso.all()
 
-    def listarPorID(self, curso:Curso):
-        result = self.dao.curso.search(
-            self.dao.query.nome == curso.nome
-        )
-
-        return Curso(result[0].get('nome'), result[0].get('sigla'))
+    def buscarPorID(self, id:int):
+        result = self.dao.curso.get(None, id)
+        return Curso(result.get('nome'), result.get('sigla'), result.doc_id)
