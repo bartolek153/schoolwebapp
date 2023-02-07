@@ -1,44 +1,59 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <title>::app-School</title>
+{% extends 'layout.html' %}
 
-    <meta http-equip="Content-Type" content="text/html">
-    <meta charset="UTF-8">
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
-    <!-- <link href="css/style.css" rel="stylesheet"> -->
-    
-  </head>
+{% block items %}
+<li class="nav-item"><a href="/app-school">início</a></li>
+{% endblock %}
 
-  <body>
+{% block content %}
+<div id="swup" class="fill-space transition-fade">
+  <h3 class="title">
+    <span style="vertical-align: text-bottom" class="material-icons">
+      assignment_ind
+    </span>&nbsp;Novo
+  </h3>
 
-    <nav id="nav_bar">
-      <a href="/app-school">Principal</a>&nbsp;|&nbsp;
-    </nav>
+  <form id="form" class="glass white-glass" method="POST" data-action="/app-school/estudante/inserir">
+    <label for="nome">Nome:&nbsp;</label>
+      <input 
+        name="nome" 
+        type="text" 
+        placeholder='"Nome Sobrenome"'
+        class="box"
+        autofocus 
+        required 
+        size="20"
+      />
 
-    <h3>Estudante::novo</h3>
+    <label for="matricula">Matrícula:&nbsp;</label>
+      <input 
+        name="matricula"
+        type="text"
+        placeholder='000000000'
+        class="box"
+        size="12"
+        autofocus
+        required
+      />
 
-    <form method="POST" action="/app-school/estudante/inserir">
-      <label for="nome">Nome:&nbsp;</label>     
-      <input type="text" name="nome" autofocus required size="50">
-      <br>
+    <label for="curso">Curso:&nbsp;</label>
+      <select name="curso" class="box" autofocus required>
+        <option id="" value="">--Selecione--</option>
 
-      <label for="matricula">Matrícula:&nbsp;</label>
-      <input type="text" name="matricula" autofocus required size="12">
-      <br>
-
-      <label for="curso">Curso:&nbsp;</label>
-      <select name="curso" autofocus required>
-        <option id="" value="">--selecione--</option>
           {% for curso in cursos %}
             <option value="{{curso.nome}}">{{curso.nome}}&nbsp;&#45;&nbsp;{{curso.sigla}}</option>
           {% endfor %}
+
       </select>
-      <br>
 
-      <input type="submit" value="Enviar">
-      <input type="button" onclick="location.href='/app-school/estudante/listar'" value="Cancelar">
-    </form>
-
-  </body>
-</html>
+    <input 
+      id="submit"
+      class="btn btn-record-action" 
+      type="submit" 
+      value="&check; Enviar" />
+    <input
+      id="cancel"
+      class="btn btn-record-action"
+      type="button"
+      value="&#10005; Cancelar" /></form>
+</div>
+{% endblock %}

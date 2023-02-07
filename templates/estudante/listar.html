@@ -1,43 +1,48 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <title>::app-School</title>
-    <meta http-equip="Content-Type" content="text/html">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <link href="css/style.css" rel="stylesheet"> -->
-  </head>
-  <body>
-    <nav id="nav_bar">
-      <a href="/app-school">Principal</a>&nbsp;|&nbsp;
-      <a href="/app-school/estudante/novo">Novo</a>&nbsp;|&nbsp;
-    </nav>
-    <h3>Estudantes</h3>
-    <section>
-      <table width="600">
-        <tbody>
-          {% for estudante in estudantes %}
-            <tr>
-            <td><b>{{estudante.matricula}}</b></td>
-              <td><a href="/app-school/estudante/alterar?matricula={{estudante.matricula}}">editar</a></td>
-              <td><a href="/app-school/estudante/remover?matricula={{estudante.matricula}}">remover</a></td>
-            </tr>
-            <tr>
-              <td>
-                {{estudante.nome}}
-                <br>
-                {{estudante.curso.sigla}}&nbsp;&#45;&nbsp;{{estudante.curso.nome}}
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </section>
-    <footer>
-      <p>
-        Copyright &copy;&nbsp;&#45;&nbsp;DevQuickly<br>
-        Python Flask
-      </p>
-    </footer>
-  </body>
-</html>
+{% extends 'layout.html' %}
+
+{% block items %}
+  <li class="nav-item"><a href="/app-school">início</a></li>
+  <li class="nav-item"><a href="/app-school/estudante/novo">novo</a></li>
+{% endblock %}
+
+{% block content %}
+<div id="swup" class="fill-space transition-fade">
+  <h3 class="title">
+    <span style="vertical-align: text-bottom" class="material-icons">
+      assignment_ind
+    </span>&nbsp;Estudantes&nbsp;
+  </h3>
+  
+  <section class="glass white-glass">
+    <table>
+      <tbody>
+        {% for estudante in estudantes %}
+
+          <tr>
+            <td class="data" style="text-align: right;">{{estudante.matricula}}&nbsp;&#45;&nbsp;<b>{{estudante.nome}}</b>&nbsp;&#45;&nbsp;{{estudante.curso.sigla}}</td>
+
+            <td>
+              <a class="btn btn-row-action" href="/app-school/estudante/alterar?matricula={{estudante.matricula}}">
+                editar<span class="material-symbols-outlined">edit_note</span>
+              </a>
+            </td>
+  
+            <td>
+              <a class="btn btn-row-action" href="/app-school/estudante/remover?matricula={{estudante.matricula}}">
+                remover<span class="material-symbols-outlined">delete_sweep</span>
+              </a>
+            </td>
+
+          </tr>
+          <!-- <tr>
+            <td>
+              {{estudante.curso.sigla}}&nbsp;&#45;&nbsp;{{estudante.curso.nome}}
+            </td>
+          </tr> -->
+
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+</div>
+{% endblock %}

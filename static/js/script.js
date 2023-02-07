@@ -56,7 +56,7 @@ swup.on("contentReplaced", init);
 
 
 function init() {
-  
+
   if (document.querySelector("form")) {
 
     let timeout;
@@ -105,8 +105,9 @@ function init() {
         body: formData
       })
       .then(response => { console.log(response)
-        if (response.status === 200) {
-          let redirect = "/app-school/curso/listar" 
+        if (response.ok) {
+          let redirect = response.headers.get("X-Redirect");
+          console.log(redirect);
 
           handleAnimateCSS("form", "zoomOutRight", redirect)
           toastr.success("Envio bem-sucedido", "Sucesso");
@@ -115,7 +116,7 @@ function init() {
         else {
           let errorMessage = response.headers.get("Error-Message");
 
-          handleAnimateCSS("form", "headShake")
+          handleAnimateCSS("form", "headShake");
           toastr.error( errorMessage, "Erro");
           return false;
         }
@@ -127,9 +128,9 @@ function init() {
       })
     }
     
-    let url = window.location.pathname.split("?")[0].split("/");
-      console.log(url);
+
     function cancelForm () {
+      let url = window.location.pathname.split("?")[0].split("/");
       
       let animation;
       $(".fill-space").css("overflow", "hidden");
@@ -146,45 +147,65 @@ function init() {
         default:
           animation = "fadeOutRight animate__faster";
           break;
-        }
+      }
 
-          form.removeClass(`animate__animated animate__${animation}`);
-          form.addClass(`animate__animated animate__${animation}`);
-          form.on("animationend", function () {
-            // window.location.href = "/app-school/curso/listar";
-            return swup.loadPage({ url: "/app-school/curso/listar" });
-          });
-        }
+      form.removeClass(`animate__animated animate__${animation}`);
+      form.addClass(`animate__animated animate__${animation}`);
+      form.on("animationend", function () {
+        let index = window.location.pathname.indexOf("/", 12);
+        let previousRoute = window.location.pathname.substring(0, index);
+
+        // window.location.href = "/app-school/curso/listar";
+        return swup.loadPage({ url: previousRoute });
+      });
+    }
+
+
+    function requestSigla() {
+      let nome = document.querySelector("[name='nome']").value;
+      
+      if (!nome || !nome.trim()) {
+        return toastr.info("Insira um nome não vazio.");
       }
-      
-      
-      function requestSigla() {
-        let nome = document.querySelector("[name='nome']").value;
-        
-        if (!nome || !nome.trim()) {
-          return toastr.info("Insira um nome não vazio.");
-        }
   
-        fetch("/app-school/curso/gerar-sigla", {
-          method: "POST", 
-          headers: { "Accept": "application/json",
-                     "Content-Type": "application/json"},
-          body: JSON.stringify(nome)
-        })
-          .then((response) => response.json())
-          .then((result) => { 
-            document.querySelector("[name='sigla']").value = result
-        });
-      }
+      fetch("/app-school/curso/gerar-sigla", {
+        method: "POST", 
+        headers: { "Accept": "application/json",
+                    "Content-Type": "application/json"},
+        body: JSON.stringify(nome)
+      })
+        .then((response) => response.json())
+        .then((result) => { 
+          document.querySelector("[name='sigla']").value = result
+      });
+    }
+  }
+
+  if (document.querySelector("#curso")) {
+
+    
+    function definirCursoEstudante(curso) {
+      console.log(curso);
+      
+      // document.getElementById("curso").value = curso;
+      
+      let select = document.getElementById("curso");
+      
+      for (var i = 0; i < select.options.length; i++) {
+        if (select.options[i].text.includes(curso)) {
+          select.options[i].selected = true;
+          break;
+        }
+      }      
     }
     
+    definirCursoEstudante(document.querySelector("#query").value)
+  
+  }
+}
+
 
 init();
-
-
-function definirCursoEstudante(curso) {
-  document.getElementById("curso").value = curso;
-}
 
 
 function handleAnimateCSS(element, animation, url="", customFunc=undefined) {
@@ -197,7 +218,7 @@ function handleAnimateCSS(element, animation, url="", customFunc=undefined) {
 
   function endAnimate(event) {
     customFunc ? customFunc() : {};
-    console.log(url.length);
+    
     if (url.length > 0) { swup.loadPage({ url: url }); } 
     else {node.classList.remove(`${prefix}animated`, animationName);}
   }

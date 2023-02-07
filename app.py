@@ -7,6 +7,7 @@ from model.estudante import Estudante
 from dao.cursoDAO import CursoDAO
 from dao.estudanteDAO import EstudanteDAO
 import utils.helper as functions
+import utils.constants as constantes
 
 from flask import Flask, request, render_template as render
 from flask import *  # render_template, redirect, url_for, make_response
@@ -15,6 +16,13 @@ from flask import *  # render_template, redirect, url_for, make_response
 # Starting the app
 
 app = Flask(__name__)
+
+
+# Application Middleware
+
+# @app.after_request
+# def default_headers(response):
+#     pass
 
 
 # Routes
@@ -57,12 +65,10 @@ def curso_inserir():
     try:
         curso = Curso(request.form["nome"], request.form["sigla"])
         CursoDAO().inserir(curso)
-        return url_for("curso_listar")
+        return functions.redirect_response(201, constantes.main_routes["curso"])
 
     except ValueError as e:
-        response = make_response("", 422)
-        response.headers["Error-Message"] = e.args[0]
-        return response
+        return functions.bad_request(422, e.args[0])
 
 
 @app.route("/app-school/curso/alterar", methods=["GET"])
@@ -73,16 +79,13 @@ def curso_alterar():
 
 @app.route("/app-school/curso/confirmar-alteracao", methods=["POST"])
 def curso_confirmar_alteracao():
-    if request.method == "POST":
-        try:
-            curso = Curso(request.form.get("nome"), request.form.get("sigla"))
-            CursoDAO().alterar(curso, request.form.get("query"))
-            return make_response(url_for("curso_listar"), 200)
-
-        except ValueError as e:
-            response = make_response("", 422)
-            response.headers["Error-Message"] = e.args[0]
-            return response
+    try:
+        curso = Curso(request.form.get("nome"), request.form.get("sigla"))
+        CursoDAO().alterar(curso, request.form.get("query"))
+        return functions.redirect_response(201, constantes.main_routes["curso"])
+        
+    except ValueError as e:
+        return functions.bad_request(422, e.args[0])
 
 
 @app.route("/app-school/curso/remover", methods=["GET"])
@@ -93,14 +96,13 @@ def curso_remover():
 
 @app.route("/app-school/curso/confirmar-exclusao", methods=["POST"])
 def curso_confirmar_exclusao():
-    if request.method == "POST":
-        try:
-            curso = Curso(request.form.get("nome"), request.form["sigla"])
-            CursoDAO().remover(curso)
-            return url_for("curso_listar")
+    try:
+        curso = Curso(request.form.get("nome"), request.form.get("sigla"), request.form.get("query"))
+        CursoDAO().remover(curso)
+        return functions.redirect_response(201, constantes.main_routes["curso"])
 
-        except Exception as e:
-            pass
+    except Exception as e:
+        return functions.bad_request(422, e.args[0])
 
 
 #######################################
@@ -123,62 +125,82 @@ def estudante_novo():
 
 @app.route("/app-school/estudante/inserir", methods=["POST"])
 def estudante_inserir():
-    if request.method == "POST":
+    try:
+        id = functions.cursoID_select(CursoDAO(), request.form["curso"])
+
         estudante = Estudante(
             request.form["nome"],
             request.form["matricula"],
-            Curso(request.form["curso"], None),
+            CursoDAO().buscarPorID(id)
         )
         EstudanteDAO().inserir(estudante)
-        return redirect(url_for("estudante_listar"))
+        return functions.redirect_response(201, constantes.main_routes["estudante"])
+
+    except ValueError as e:
+        return functions.bad_request(422, e.args[0])
 
 
 @app.route("/app-school/estudante/alterar", methods=["GET"])
 def estudante_alterar():
-    estudante = Estudante(None, request.args.get("matricula"), None)
+    matricula = request.args.get("matricula")
     return render(
         "estudante/alterar.html",
-        estudante=EstudanteDAO().listarPorID(estudante),
-        cursos=CursoDAO().listar(),
+        estudante=EstudanteDAO().buscarPorID(matricula),
+        cursos=CursoDAO().listar()
     )
 
 
 @app.route("/app-school/estudante/confirmar-alteracao", methods=["POST"])
 def estudante_confirmar_alteracao():
-    if request.method == "POST":
-        print(request.method)
-        print(request.form.get("nome"))
-        print(request.form.get("matricula"))
+    try:   
+        id = functions.cursoID_select(CursoDAO(), request.form.get("curso"))
+        matricula = request.form.get("matricula")
+
         estudante = Estudante(
             request.form.get("nome"),
-            request.form.get("matricula"),
-            Curso(request.form.get("curso"), None),
+            matricula,
+            CursoDAO().buscarPorID(id)
         )
-        EstudanteDAO().alterar(estudante, request.form.get("matricula"))
-        return redirect(url_for("estudante_listar"))
+        EstudanteDAO().alterar(estudante, matricula)
+        return functions.redirect_response(201, constantes.main_routes["estudante"])
+
+    except Exception as e:
+        return functions.bad_request(422, e.args[0])
 
 
 @app.route("/app-school/estudante/remover")
 def estudante_remover():
-    estudante = Estudante(None, request.args.get("matricula"), None)
+    matricula = request.args.get("matricula")
     return render(
         "/estudante/remover.html",
-        estudante=EstudanteDAO().listarPorID(estudante),
-        cursos=CursoDAO().listar(),
+        estudante=EstudanteDAO().buscarPorID(matricula),
+        cursos=CursoDAO().listar()
     )
 
 
 @app.route("/app-school/estudante/confirmar-exclusao", methods=["POST"])
 def estudante_confirmar_exclusao():
-    if request.method == "POST":
-        estudante = Estudante(None, request.form.get("matricula"), None)
+    try:
+        estudante = Estudante(
+            request.form.get("nome"),
+            request.form.get("matricula"),
+            None
+        )
         EstudanteDAO().remover(estudante)
-        return redirect(url_for("estudante_listar"))
+        return functions.redirect_response(201, constantes.main_routes["estudante"])
+
+    except Exception as e:
+        return functions.bad_request(422, e.args[0])
 
 
-root_dir = os.path.split(os.path.abspath(sys.argv[0]))[0]
-sys.path.append(os.path.join(root_dir, "utils"))
+# EstudanteDAO().inserir(
+#     Estudante(
+#         "lbart asdf", 
+#         "5563",
+#         CursoDAO().buscarPorID(1)
+#     )
+# )
 
 
-if __name__ == '__main__':
-   app.run(host='0.0.0.0', port='5000', debug=True)
+if __name__ == "__main__":
+   app.run(host="0.0.0.0", port="5000", debug=True)

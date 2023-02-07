@@ -8,10 +8,9 @@
 {% block content %}
 <div id="swup" class="fill-space transition-fade">
   <h3 class="title">
-    <span style="vertical-align: text-bottom" class="material-icons"
-      >school</span
-    >
-    Cursos&nbsp;
+    <span style="vertical-align: text-bottom" class="material-icons">
+      school
+    </span>&nbsp;Cursos&nbsp;
   </h3>
 
   <section class="glass white-glass">
@@ -23,22 +22,14 @@
           <td class="data">{{curso.sigla}}&nbsp;&#45;&nbsp;{{curso.nome}}</td>
 
           <td>
-            <a
-              class="btn btn-row-action"
-              href="/app-school/curso/alterar?codigo={{curso.doc_id}}"
-            >
-              editar
-              <span class="material-symbols-outlined">edit_note</span>
+            <a class="btn btn-row-action" href="/app-school/curso/alterar?codigo={{curso.doc_id}}">
+              editar<span class="material-symbols-outlined">edit_note</span>
             </a>
           </td>
 
           <td>
-            <a
-              class="btn btn-row-action"
-              href="/app-school/curso/remover?codigo={{curso.doc_id}}"
-            >
-              remover
-              <span class="material-symbols-outlined">delete_sweep</span>
+            <a class="btn btn-row-action" href="/app-school/curso/remover?codigo={{curso.doc_id}}">
+              remover<span class="material-symbols-outlined">delete_sweep</span>
             </a>
           </td>
         </tr>

@@ -1,30 +1,43 @@
-class Estudante(object):
-    def __init__(self, nome: str, matricula: str, curso):  # codigo
+from utils.helper import *
+from model.curso import Curso
+
+
+class Estudante:
+    def __init__(self, nome:str, matricula:str, curso:Curso):  # codigo
         # self.codigo = codigo
         self.nome = nome
-        self.matricula = matricula
+        self._matricula = matricula.strip()
         self.curso = curso
 
-    # def getCodigo(self):
-    #     return self.codigo
-    #
-    # def setCodigo(self, codigo):
-    #     self.codigo = codigo
 
-    def getMatricula(self) -> str:
-        return self.matricula
+    # def __repr__(self) -> str:
+        # return f"<Curso(name={self.nome!r})>"
 
-    def setMatricula(self, matricula):
-        self.matricula = matricula
 
-    def getNome(self) -> str:
-        return self.nome
+    def __call__(self) -> None:
+        print(self._matricula)
+        print(self.nome)
+        print('---')
+        print(self.curso.nome)
 
-    def setNome(self, nome):
-        self.nome = nome
 
-    def getCurso(self):
-        return self.curso
+    @property
+    def nome(self) -> str:
+        return self._nome
 
-    def setCurso(self, curso):
-        self.curso = curso
+    @nome.setter
+    @onlycharacters('nome')
+    def nome(self, n: str):
+        self._nome = n.strip()
+
+    @property
+    def matricula(self) -> str:
+        return self._matricula
+
+    @property
+    def curso(self) -> Curso:
+        return self._curso
+
+    @curso.setter
+    def curso(self, c:Curso):
+        self._curso = c

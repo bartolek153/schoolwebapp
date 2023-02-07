@@ -1,4 +1,9 @@
 import re
+import os
+
+from flask import make_response
+import requests
+from bs4 import BeautifulSoup
 
 
 def gerarSigla(expr:str):
@@ -11,14 +16,6 @@ def gerarSigla(expr:str):
     
     print(sigla)
     return sigla
-
-
-def accepts(exclude:dict=None):
-    pass
-
-
-def required():
-    pass
 
 
 def onlycharacters(elemento:str, hint:str=""):
@@ -36,3 +33,51 @@ def onlycharacters(elemento:str, hint:str=""):
         return wrapper
 
     return decorator
+
+
+def portalAlunoHTML():
+    url = 'https://aluno.cefsa.edu.br/Login/Login'
+    urlHome = 'https://aluno.cefsa.edu.br/Home'
+
+    user = ''
+    sec = ''
+
+    values = {
+        "Usuario":"",
+        "Senha":""
+    }
+
+    with requests.Session() as ses:
+        home = ses.post(url, data=values)
+        # print(home, home.headers['Content-Type'], '\n')
+
+        # print(home.text[:400])
+        soup = BeautifulSoup(home.text, features="html.parser")
+
+        text = './requests/arquivo.html'
+        print(os.path.isfile(text))
+        if not os.path.isfile(text):
+            with open(text, "w") as html:
+                html.write(soup.find('div', id="colapseCardapioSemanal").prettify())
+                html.close()
+
+
+def redirect_response(statuscode:int, route:str):
+    response = make_response("", statuscode)
+    response.headers["X-Redirect"] = route
+    return response
+
+
+def bad_request(statuscode:int, error_message:str):
+    response = make_response("", statuscode)
+    response.headers["Error-Message"] = error_message
+    return response
+
+
+def cursoID_select(aux, curso):
+
+    curso_id = aux.dao.curso.get(
+        aux.dao.query.nome == curso
+    ).doc_id
+
+    return curso_id

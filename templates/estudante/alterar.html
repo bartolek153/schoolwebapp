@@ -1,35 +1,64 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <meta http-equip="Content-Type" content="text/html">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <link href="css/style.css" rel="stylesheet"> -->
-    <script src="{{url_for('static', filename='js/script.js')}}"></script>
-    <title>::app-School</title>
-  </head>
-  <body onload="definirCursoEstudante('{{estudante.getCurso().getNome()}}')">
-    <nav id="nav_bar">
-      <a href="/app-school">Principal</a>&nbsp;|&nbsp;
-    </nav>
-    <h3>Estudante::altera&ccedil;&atilde;o?</h3>
-    <form method="POST" action="/app-school/estudante/confirmar-alteracao">
-      <label for="nome">Nome:&nbsp;</label>     
-      <input type="text" name="nome" value="{{estudante.nome}}" autofocus required size="50">
-      <br>
-      <label for="matricula">Matrícula:&nbsp;</label>
-      <input type="text" name="matricula" value="{{estudante.matricula}}" readonly size="12">
-      <br>
-      <label for="curso">Curso:&nbsp;</label>
-      <select name="curso" id="curso" autofocus required>
+{% extends 'layout.html' %}
+
+{% block items %}
+<li class="nav-item"><a href="/app-school">início</a></li>
+{% endblock %}
+
+{% block content %}
+<div id="swup" class="fill-space transition-fade">
+  <h3 class="title">
+    <span style="vertical-align: text-bottom" class="material-icons">
+      assignment_ind
+    </span>&nbsp;Alterar
+  </h3>
+  
+  <form id="form" class="glass white-glass" method="POST" data-action="/app-school/estudante/confirmar-alteracao">
+    <input type="text" hidden id="query" value="{{estudante.curso.nome}}" />
+    <input type="text" hidden name="matricula" value="{{estudante.matricula}}" />
+
+    <label for="nome">Nome:&nbsp;</label>
+      <input 
+        name="nome" 
+        type="text" 
+        value="{{estudante.nome}}" 
+        class="box"
+        autofocus 
+        required 
+        size="20"
+      />
+    
+    <label for="matricula">Matrícula:&nbsp;</label>
+      <input 
+        name="matricula" 
+        type="text" 
+        value="{{estudante.matricula}}" 
+        class="box box-readonly"
+        size="12"
+        readonly
+      />
+    
+    <label for="curso">Curso:&nbsp;</label>
+      <select name="curso" class="box" id="curso" autofocus required>
+
         {% for curso in cursos %}
           <option value="{{curso.nome}}">{{curso.nome}}&nbsp;&#45;&nbsp;{{curso.sigla}}</option>
         {% endfor %}
+
       </select>
-      <br>
-      <input type="submit" value="Alterar">
-      <input type="button" onclick="location.href='/app-school/estudante/listar'" value="Cancelar">
-    </form>
-  </body>
-</html>
+    
+    <input 
+      id="submit"
+      class="btn btn-record-action" 
+      type="submit" 
+      value="&check; Alterar" />
+    <input
+      id="cancel"
+      class="btn btn-record-action"
+      type="button"
+      value="&#10005; Cancelar" />
+  </form>
+</div>
+{% endblock %}
+
+<!--  -->
 

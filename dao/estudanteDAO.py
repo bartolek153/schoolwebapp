@@ -16,44 +16,53 @@ class EstudanteDAO(DAO):
     def __init__(self):
         self.dao = DAO.getInstancia()
 
-    def inserir(self, estudante: Estudante):
+
+    def inserir(self, estudante:Estudante):
         self.dao.estudante.insert({
-            'nome': estudante.getNome(),
-            'matricula': estudante.getMatricula(),
-            'curso': estudante.getCurso().getNome()
+            'nome': estudante.nome,
+            'matricula': estudante.matricula,
+            'curso': estudante.curso.codigo
         })
 
-    def alterar(self, estudante: Estudante, query: str):
+
+    def alterar(self, estudante:Estudante, query:str):
         self.dao.estudante.update({
-            'nome': estudante.getNome(),
-            'matricula': estudante.getMatricula(),
-            'curso': estudante.getCurso().getNome()},
-            self.dao.query.matricula == query
+            'nome': estudante.nome,
+            'matricula': estudante.matricula,
+            'curso': estudante.curso.codigo
+            }, cond=(self.dao.query.matricula == query)
         )
 
-    def remover(self, estudante: Estudante):
+
+    def remover(self, estudante:Estudante):
         self.dao.estudante.remove(
-            self.dao.query.matricula == estudante.getMatricula()
+            self.dao.query.matricula == estudante.matricula
         )
+
 
     def listar(self):
-        estudantes = []
-        result = self.dao.estudante.all()
-        for estudante in result:
-            estudantes.append(
+        
+        query = []
+        for estudante in self.dao.estudante.all():
+            query.append(
                 Estudante(
-                    estudante.get('nome'),
-                    estudante.get('matricula'),
-                    CursoDAO().listarPorID(
-                        Curso(estudante.get('curso'), None)
-                    )
+                    estudante['nome'],
+                    estudante['matricula'],
+                    CursoDAO().buscarPorID(estudante['curso'])
                 )
             )
-        return estudantes
 
-    def listarPorID(self, estudante: Estudante):
-        result = self.dao.estudante.search(
-            self.dao.query.matricula == estudante.getMatricula().strip())
-        return Estudante(result[0].get('nome'), result[0].get('matricula'),
-                         CursoDAO().listarPorID(
-                             Curso(result[0].get('curso'), None)))
+        return query
+            
+
+
+    def buscarPorID(self, id:str):
+        result = self.dao.estudante.get(
+            self.dao.query.matricula == id.strip()
+        )
+        
+        return Estudante(
+            result.get('nome'), 
+            result.get('matricula'),
+            CursoDAO().buscarPorID(result.get('curso'))
+        )
