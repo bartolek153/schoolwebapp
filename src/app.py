@@ -1,4 +1,5 @@
 """SchoolWebApp - Main Controller"""
+
 import sys
 import os
 
@@ -20,9 +21,9 @@ app = Flask(__name__)
 
 # Application Middleware
 
-# @app.after_request
-# def default_headers(response):
-#     pass
+@app.after_request
+def default_headers(response):
+    pass
 
 
 # Routes
@@ -191,15 +192,6 @@ def estudante_confirmar_exclusao():
 
     except Exception as e:
         return functions.bad_request(422, e.args[0])
-
-
-# EstudanteDAO().inserir(
-#     Estudante(
-#         "lbart asdf", 
-#         "5563",
-#         CursoDAO().buscarPorID(1)
-#     )
-# )
 
 
 if __name__ == "__main__":
