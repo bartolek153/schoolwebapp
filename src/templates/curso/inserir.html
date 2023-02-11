@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+
+{% block items %}
+<li class="nav-item"><a href="/app-school">início</a></li>
+{% endblock %}
+
+{% block content %}
+<div id="swup" class="fill-space transition-fade">
+  <h3 class="title">
+    <span style="vertical-align: text-bottom" class="material-icons">
+      school
+    </span>&nbsp;Novo
+  </h3>
+
+  <form id="form" class="glass white-glass" method="POST" data-action="/app-school/curso/inserir"> 
+
+    <label for="nome">Nome:&nbsp;</label>
+      <input
+        name="nome"
+        placeholder='"Engenharia Mecânica"'
+        class="box"
+        size="20"
+        type="text"
+        autofocus
+        required
+      />
+
+    <label for="sigla">Sigla:&nbsp;</label>
+      <input
+        name="sigla"
+        placeholder='"EM"'
+
+        class="box"
+        size="10"
+        min="2"
+        type="text"
+        
+        autofocus
+        required
+      />
+
+    <span id="btn-sigla" class="material-symbols-outlined">shuffle</span>
+
+    <input 
+      id="submit"
+      class="btn btn-record-action" 
+      type="submit" 
+      value="&check; Enviar" />
+    <input
+      id="cancel"
+      class="btn btn-record-action"
+      type="button"
+      value="&#10005; Cancelar" />
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>::app-School</title>
+
+    <!-- JS and UI-Related Scripts -->
+    <script src="/static/js/swup.js"></script>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <!-- FavIcon -->
+    <link rel="shortcut icon" href="/static/images/logos/favicon.ico" type="image/x-icon" />
+    
+    <!-- External Fonts -->
+    <link rel="stylesheet"  href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet"  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100" />
+    <link rel="stylesheet"  href="https://fonts.googleapis.com/css?family=Quicksand:400,700" />
+    <link rel="stylesheet"  href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css">
+
+    <!-- CSS Styles -->
+    <!-- <link rel="stylesheet" href="/static/css/mobile.css" media="screen and (max-width: 480px)" /> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/animate.min.css" type="text/css" />
+    <link rel="stylesheet" href="/static/css/style.css" type="text/css"/>
+    
+    {% block customization %}
+    
+    {% endblock %}
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <header>
+        <nav>
+            <a class="logo" href="/app-school">app-School</a>
+            <ul id="nav-left" class="swup-a transition-fade" style="flex: 1;">
+                {% block items %}
+
+                {% endblock %}
+              </ul>
+             
+              <ul id="nav-right">
+                <li class="nav-item">
+                  <a href="https://aluno.cefsa.edu.br/">
+                    <span class="material-symbols-outlined">badge</span></a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a href="#">
+                    <span class="material-symbols-outlined">restaurant</span></a
+                  >
+                </li> 
+                <li class="nav-item">
+                  <a href="https://sso-office365.cefsa.edu.br/adfs/ls/">
+                    <span class="material-symbols-outlined">mail</span></a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a href="https://ead.cefsa.edu.br/eadcefsa/">
+                    <span class="material-symbols-outlined">calendar_month</span></a
+                  >
+                </li>
+                <li class="hamburger" style="cursor: pointer">
+                  <span class="line1"></span>
+                  <span class="line2"></span>
+                  <span class="line3"></span>
+                </li>
+              </ul>
+              
+              <div class="overlay" style="visibility: hidden">
+                <ul>
+                  <li><a href="/app-school/curso/novo">icon</a></li>
+                  <li><a href="/app-school/curso/novo">icon</a></li>
+                  <li><a href="/app-school/curso/novo">icon</a></li>
+                </ul>
+              </div>
+        </nav>
+    </header>
+
+    {% block content %}
+    
+    {% endblock %}
+
+    <footer>
+        <p>
+            Copyright &copy;&nbsp;&#45;&nbspDevQuickly<br/>
+            Python Flask
+        </p>
+    </footer>
+
+    <script src="/static/js/script.js"></script>
+
+</body>
+</html>

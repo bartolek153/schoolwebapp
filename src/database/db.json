@@ -1,0 +1,41 @@
+{
+  "Curso":{
+    "1":{
+      "nome":"Engenharia de Computa\u00e7\u00e3o",
+      "sigla":"EC"
+    },
+    "2":{
+      "nome":"Engenharia de Alimentos",
+      "sigla":"EA"
+    },
+    "3":{
+      "nome":"Engenharia de Controle e Automa\u00e7\u00e3o",
+      "sigla":"ECA"
+    },
+    "4":{
+      "nome":"Administra\u00e7\u00e3o",
+      "sigla":"ADM"
+    },
+    "5":{
+      "nome":"Engenharia Mec\u00e2nica",
+      "sigla":"EM"
+    }
+  },
+  "Estudante":{
+    "1":{
+      "curso":1,
+      "matricula":"081220004",
+      "nome":"Luiz Eduardo Kern Bartolassi"
+    },
+    "3":{
+      "curso":3,
+      "matricula":"012345678",
+      "nome":"Arnaldo Bento C\u00e9sar"
+    },
+    "4":{
+      "curso":4,
+      "matricula":"400022180",
+      "nome":"Bartolassi Kern Eduardo Luiz"
+    }
+  }
+}

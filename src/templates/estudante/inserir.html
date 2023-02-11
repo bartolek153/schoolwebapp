@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+
+{% block items %}
+<li class="nav-item"><a href="/app-school">início</a></li>
+{% endblock %}
+
+{% block content %}
+<div id="swup" class="fill-space transition-fade">
+  <h3 class="title">
+    <span style="vertical-align: text-bottom" class="material-icons">
+      assignment_ind
+    </span>&nbsp;Novo
+  </h3>
+
+  <form id="form" class="glass white-glass" method="POST" data-action="/app-school/estudante/inserir">
+    <label for="nome">Nome:&nbsp;</label>
+      <input 
+        name="nome" 
+        type="text" 
+        placeholder='"Nome Sobrenome"'
+        class="box"
+        autofocus 
+        required 
+        size="20"
+      />
+
+    <label for="matricula">Matrícula:&nbsp;</label>
+      <input 
+        name="matricula"
+        type="text"
+        placeholder='000000000'
+        class="box"
+        size="12"
+        autofocus
+        required
+      />
+
+    <label for="curso">Curso:&nbsp;</label>
+      <select name="curso" class="box" autofocus required>
+        <option id="" value="">--Selecione--</option>
+
+          {% for curso in cursos %}
+            <option value="{{curso.nome}}">{{curso.nome}}&nbsp;&#45;&nbsp;{{curso.sigla}}</option>
+          {% endfor %}
+
+      </select>
+
+    <input 
+      id="submit"
+      class="btn btn-record-action" 
+      type="submit" 
+      value="&check; Enviar" />
+    <input
+      id="cancel"
+      class="btn btn-record-action"
+      type="button"
+      value="&#10005; Cancelar" /></form>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% block items %}
+<li class="nav-item"><a href="/app-school">início</a></li>
+{% endblock %}
+
+{% block content %}
+<div id="swup" class="fill-space transition-fade">
+  <h3 class="title">
+    <span style="vertical-align: text-bottom" class="material-icons">
+      school
+    </span>&nbsp;Excluir
+  </h3>
+
+  <form id="form" class="glass white-glass" method="POST" data-action="/app-school/curso/confirmar-exclusao">
+    <input type="text" hidden name="query" value="{{curso.codigo}}" />
+
+    <label for="nome">Nome:&nbsp;</label>
+    <input name="nome" type="text" value="{{curso.nome}}" class="box box-readonly" readonly size="20" />
+
+    <label for="sigla">Sigla:&nbsp;</label>
+    <input name="sigla" type="text" value="{{curso.sigla}}" class="box box-readonly" readonly size="10" />
+
+    <input id="submit" class="btn btn-enabled btn-record-action" type="submit" value="&check; Excluir" />
+    <input id="cancel" class="btn btn-enabled btn-record-action" type="button" value="&#10005; Cancelar" />
+  </form>
+</div>
+{% endblock %}

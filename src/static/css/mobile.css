@@ -1,0 +1,50 @@
+/* responsividade */
+
+@media screen and (max-width: 700px) {
+    body {
+      background: radial-gradient(
+        farthest-corner at 300px 150px,
+        #fcc23e 10%,
+        #1f86e1 90%
+      );
+    }
+    
+    nav .nav-item { display: none; }
+    nav .hamburger {
+      float: right;
+      display: block;
+    }
+  
+    .title {
+      margin: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  
+    .glass {
+      padding: 10px;
+      height: 80%;
+    }
+  
+    .card {
+      padding: 4px;
+  
+      /* height: 160px; */
+      /* width: 120px; */
+  
+      /* max-width: 50%; */
+      /* height: 80%; */
+  
+      aspect-ratio: 1/1;
+  
+      font-size: 11px;
+    }
+  
+    .card h4 {
+      margin: 5px;
+    }
+  
+    .card p {
+      font-size: 9px;
+    }
+  }  
