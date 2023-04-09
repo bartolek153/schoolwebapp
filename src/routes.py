@@ -13,17 +13,14 @@ import utils.constants as constantes
 from flask import Flask, request, render_template as render
 from flask import *  # render_template, redirect, url_for, make_response
 
-
-# Starting the app
-
-app = Flask(__name__)
+from src import app
 
 
 # Application Middleware
 
-@app.after_request
-def default_headers(response):
-    pass
+# @app.after_request
+# def default_headers(response):
+#     pass
 
 
 # Routes
