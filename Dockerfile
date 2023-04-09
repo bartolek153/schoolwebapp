@@ -38,9 +38,11 @@ RUN a2enmod headers
 RUN ln -sf /proc/self/fd/1 /var/log/apache2/access.log && \
     ln -sf /proc/self/fd/1 /var/log/apache2/error.log
 
+RUN chmod a+w /var/www/apache-flask/src/database/db.json
+
 EXPOSE 80
 
 WORKDIR /var/www/apache-flask
-VOLUME /var/www/apache-flask
+# VOLUME /var/www/apache-flask
 
 CMD  /usr/sbin/apache2ctl -D FOREGROUND
